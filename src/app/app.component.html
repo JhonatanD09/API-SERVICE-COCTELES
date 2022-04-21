@@ -1,6 +1,14 @@
 <h1>{{title}}</h1>
 <h2>{{name}}</h2>
-<img src="{{imgUrl}}" width="200" height="200">
-<ul *ngFor="let ingredient of ingredientsList">
-  <li>{{ingredient}}</li>
-</ul>
+<img [src]="imgUrl" width="200" height="200">
+<br>
+<div class="Ingrediets">
+
+  <app-ingredient  [list]="ingredientsList" [name]="ingredient"></app-ingredient>
+  <app-ingredient   [list]="meassuresList" [name]="meassure"></app-ingredient>
+
+</div>
+
+<br>
+<h2 >Instructions</h2>
+<p>{{instructions}}</p>

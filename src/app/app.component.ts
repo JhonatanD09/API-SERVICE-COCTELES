@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CoctelService } from './coctelesService';
+import { CoctelService } from './services/coctelesService.service';
 
 @Component({
   selector: 'app-root',
@@ -9,25 +9,34 @@ import { CoctelService } from './coctelesService';
 
 export class AppComponent {
   title = 'api-service';
+  ingredient = 'Ingredients'
+  meassure = 'Meassures'
   name = ''
   imgUrl = ''
   ingredientsList:any = []
+  meassuresList :any = []
+  instructions = ''
+
   constructor( cs :CoctelService ){
     cs.getData().subscribe((res : any)=>{
       let data = res.drinks[0]
       this.name = data.strDrink
       this.imgUrl =data.strDrinkThumb
-      for (let index = 17; index < 32; index++) {
+      for (let i = 17, j = 32 ; i < 32 && j<47; i++ , j++) {
         let obj = Object.values(data)
-        this.ingredients(obj[index])
+        this.ingredients(this.ingredientsList,obj[i])
+        this.ingredients(this.meassuresList,obj[j])
       }
+      this.instructions = data.strInstructions
     })
     }
 
-    ingredients (ingredient :any){
+    ingredients (list:any , ingredient :any){
       if(ingredient != null){
-        this.ingredientsList.push(ingredient)
+        list.push(ingredient)
       }
+
     }
+
   }
 
