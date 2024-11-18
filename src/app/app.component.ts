@@ -8,35 +8,44 @@ import { CoctelService } from './services/coctelesService.service';
 })
 
 export class AppComponent {
-  title = 'api-service';
+  title = 'COCTELS';
   ingredient = 'Ingredients'
   meassure = 'Meassures'
   name = ''
   imgUrl = ''
   ingredientsList:any = []
-  meassuresList :any = []
+
   instructions = ''
 
-  constructor( cs :CoctelService ){
-    cs.getData().subscribe((res : any)=>{
+  constructor( private cs :CoctelService ){
+    this.getCoctel()
+  }
+
+  getCoctel(){
+    this.cs.getData().subscribe((res : any)=>{
       let data = res.drinks[0]
       this.name = data.strDrink
       this.imgUrl =data.strDrinkThumb
-      for (let i = 17, j = 32 ; i < 32 && j<47; i++ , j++) {
-        let obj = Object.values(data)
-        this.ingredients(this.ingredientsList,obj[i])
-        this.ingredients(this.meassuresList,obj[j])
-      }
       this.instructions = data.strInstructions
-    })
-    }
 
-    ingredients (list:any , ingredient :any){
-      if(ingredient != null){
-        list.push(ingredient)
+      for(let i = 0; i < 15 ; i++) {
+        const ingredient = data[`strIngredient${i + 1}`];
+        const measure = data[`strMeasure${i + 1}`];
+
+        if(ingredient && measure){
+          this.ingredientsList.push({ingredient: ingredient, measure: measure})
+        }
       }
-
-    }
-
+    })
   }
+
+  nextCoctel(){
+  this.name = ''
+  this.imgUrl = ''
+  this.ingredientsList = []
+  this.instructions = ''
+    this.getCoctel()
+  }
+
+}
 
